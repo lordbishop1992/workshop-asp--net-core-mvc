@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Data;
 using SalesWebMvc.Services;
 using SalesWebMvc.Models;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace SalesWebMvc
 {
@@ -52,6 +54,14 @@ namespace SalesWebMvc
         {
             if (env.IsDevelopment())
             {
+                var enUs = new CultureInfo("en-US");
+                var localizationOptions = new RequestLocalizationOptions
+                {
+                    DefaultRequestCulture = new RequestCulture(enUs),
+                    SupportedCultures = new List<CultureInfo> { enUs },
+                    SupportedUICultures = new List<CultureInfo> { enUs }
+                };
+                app.UseRequestLocalization(localizationOptions);
                 //se eu estiver no perfil de desenvolvimento vou chamar a class Seed para enviar os dados para o banco
                 app.UseDeveloperExceptionPage();
                 seedingService.Seed();
